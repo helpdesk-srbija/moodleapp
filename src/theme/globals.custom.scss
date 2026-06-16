@@ -3,3 +3,21 @@
  * ----------------------------------------------------------------------------
  * Place here all custom app variables.
  */
+:root {
+  --ion-color-primary: #E31E24;
+  --ion-color-primary-rgb: 227,30,36;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255,255,255;
+  --ion-color-primary-shade: #c71a1f;
+  --ion-color-primary-tint: #e63539;
+
+  --ion-color-secondary: #F5A623;
+  --ion-color-secondary-rgb: 245,166,35;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0,0,0;
+  --ion-color-secondary-shade: #d8911f;
+  --ion-color-secondary-tint: #f6af38;
+
+  --ion-color-dark: #1A1A1A;
+  --ion-color-light: #FFFFFF;
+}
