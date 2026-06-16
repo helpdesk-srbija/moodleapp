@@ -1,7 +1,7 @@
 workflows:
   moodle-android:
     name: Moodle Android Build
-    max_build_duration: 60
+    max_build_duration: 90
     environment:
       android_signing:
         - dvdedukacija
@@ -12,11 +12,11 @@ workflows:
         script: npm ci
       - name: Build web
         script: npx ionic build --prod
-      - name: Capacitor sync
-        script: ./node_modules/.bin/cap sync android
+      - name: Sync Android
+        script: |
+          npm run push -- --platform android
       - name: Build Android
         script: |
           cd android
-          ./gradlew bundleRelease
-    artifacts:
-      - android/app/build/outputs/bundle/release/*.aab
+          chmod +x gradlew
+          ./gradlew
