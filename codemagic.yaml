@@ -9,12 +9,20 @@ workflows:
       java: 17
     scripts:
       - name: Install dependencies
+        script: npm ci
+      - name: Install cordova plugin deps
+        script: cd cordova-plugin-moodleapp && npm install && npm run prod && cd ..
+      - name: Build web assets
+        script: npm run build:prod
+      - name: Cordova prepare Android
         script: |
-          npm ci
-          cd cordova-plugin-moodleapp && npm install && cd ..
-      - name: Build and run Android
+          npx cordova platform add android || true
+          npx cordova prepare android
+      - name: Build Android
         script: |
-          npm run prod:android -- --no-deploy
+          cd platforms/android
+          chmod +x gradlew
+          ./gradlew bundleRelease
     artifacts:
       - platforms/android/app/build/outputs/bundle/release/*.aab
       - platforms/android/app/build/outputs/apk/release/*.apk
