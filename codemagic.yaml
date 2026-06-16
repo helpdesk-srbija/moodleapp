@@ -1,7 +1,7 @@
 workflows:
   moodle-android:
     name: Moodle Android Build
-    max_build_duration: 90
+    max_build_duration: 120
     environment:
       android_signing:
         - dvdedukacija
@@ -9,14 +9,12 @@ workflows:
       java: 17
     scripts:
       - name: Install dependencies
-        script: npm ci
-      - name: Build web
-        script: npx ionic build --prod
-      - name: Sync Android
         script: |
-          npm run push -- --platform android
-      - name: Build Android
+          npm ci
+          cd cordova-plugin-moodleapp && npm install && cd ..
+      - name: Build and run Android
         script: |
-          cd android
-          chmod +x gradlew
-          ./gradlew
+          npm run prod:android -- --no-deploy
+    artifacts:
+      - platforms/android/app/build/outputs/bundle/release/*.aab
+      - platforms/android/app/build/outputs/apk/release/*.apk
