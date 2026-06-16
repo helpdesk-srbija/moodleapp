@@ -13,7 +13,7 @@ workflows:
       - name: Build web
         script: npx ionic build --prod
       - name: Capacitor sync
-        script: npx cap sync android
+        script: ./node_modules/.bin/cap sync android
       - name: Build Android
         script: |
           cd android
