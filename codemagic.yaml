@@ -14,15 +14,10 @@ workflows:
         script: cd cordova-plugin-moodleapp && npm install && npm run prod && cd ..
       - name: Build web assets
         script: npm run build:prod
-      - name: Cordova prepare Android
+      - name: Cordova build Android
         script: |
           npx cordova platform add android || true
-          npx cordova prepare android
-      - name: Build Android
-        script: |
-          cd platforms/android
-          chmod +x gradlew
-          ./gradlew bundleRelease
+          npx cordova build android --release
     artifacts:
       - platforms/android/app/build/outputs/bundle/release/*.aab
       - platforms/android/app/build/outputs/apk/release/*.apk
