@@ -1,0 +1,44 @@
+workflows:
+  moodle-android:
+    name: Moodle Android Build
+    max_build_duration: 60
+    environment:
+      node: 18.17.0
+      java: 17
+    scripts:
+      - name: Install dependencies
+        script: npm ci
+      - name: Build web
+        script: npx ionic build --prod
+      - name: Capacitor sync
+        script: npx cap sync android
+      - name: Build Android APK
+        script: |
+          cd android
+          ./gradlew assembleRelease
+    artifacts:
+      - android/app/build/outputs/apk/release/*.apk
+
+  moodle-ios:
+    name: Moodle iOS Build
+    max_build_duration: 60
+    environment:
+      node: 18.17.0
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Install dependencies
+        script: npm ci
+      - name: Build web
+        script: npx ionic build --prod
+      - name: Capacitor sync
+        script: npx cap sync ios
+      - name: Build iOS
+        script: |
+          xcodebuild -workspace ios/App/App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -archivePath ios/App/App.xcarchive \
+            archive
+    artifacts:
+      - ios/App/App.xcarchive
