@@ -14,14 +14,23 @@ workflows:
         script: cd cordova-plugin-moodleapp && npm install && npm run prod && cd ..
       - name: Build web assets
         script: npm run build:prod
-      - name: Cordova build Android signed
+      - name: Cordova prepare Android
         script: |
           npx cordova platform add android || true
-          npx cordova build android --release -- \
-            --keystore=$CM_KEYSTORE_PATH \
-            --storePassword=$CM_KEYSTORE_PASSWORD \
-            --alias=$CM_KEY_ALIAS \
-            --password=$CM_KEY_PASSWORD
+          npx cordova prepare android
+      - name: Fix content providers
+        script: |
+          find platforms/android -name "*.xml" -exec sed -i 's/com\.moodle\.moodlemobile/com.helpdesk.moodledvdkragujevac/g' {} \;
+          find platforms/android -name "*.java" -exec sed -i 's/com\.moodle\.moodlemobile/com.helpdesk.moodledvdkragujevac/g' {} \;
+      - name: Build Android signed
+        script: |
+          cd platforms/android
+          chmod +x gradlew
+          ./gradlew bundleRelease \
+            -Pandroid.injected.signing.store.file=$CM_KEYSTORE_PATH \
+            -Pandroid.injected.signing.store.password=$CM_KEYSTORE_PASSWORD \
+            -Pandroid.injected.signing.key.alias=$CM_KEY_ALIAS \
+            -Pandroid.injected.signing.key.password=$CM_KEY_PASSWORD
     artifacts:
       - platforms/android/app/build/outputs/bundle/release/*.aab
       - platforms/android/app/build/outputs/apk/release/*.apk
