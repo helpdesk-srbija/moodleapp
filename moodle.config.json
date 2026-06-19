@@ -20,10 +20,10 @@
         "high": 120
     },
     "customurlscheme": "moodledvdkragujevac",
-    "sites": [],
+    "sites": ["https://edukacija.dvdkragujevac.rs"],
     "multisitesdisplay": "",
     "sitefindersettings": {},
-    "onlyallowlistedsites": false,
+    "onlyallowlistedsites": true,
     "forcedefaultlanguage": true,
     "privacypolicy": "https://moodle.net/moodle-app-privacy/",
     "notificoncolor": "#f98012",
